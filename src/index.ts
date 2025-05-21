@@ -13,26 +13,11 @@ const google = createGoogleGenerativeAI({
   apiKey: process.env.GEMINI_API_KEY || '',
 });
 
-// Read MCP configuration
-const getMcpConfig = (): { mcpServers: Record<string, any> } => {
-  try {
-    const configPath = path.resolve(process.cwd(), 'mcp-config.json');
-    const configContent = fs.readFileSync(configPath, 'utf-8');
-    return JSON.parse(configContent);
-  } catch (error) {
-    console.error('Error reading MCP configuration:', error);
-    return { mcpServers: {} };
-  }
-};
-
 /**
  * Creates a Brave Search MCP agent using Gemini Pro 2.5
  * @returns The configured MCP agent
  */
 export const createBraveSearchAgent = async () => {
-  // Get MCP configuration
-  const mcpConfig = getMcpConfig();
-  const braveSearchConfig = mcpConfig.mcpServers['brave-search'];
   
   // Create agent options
   const agentOptions: McpAgentOptions = {
